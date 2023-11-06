@@ -51,6 +51,10 @@ python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/
 python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/path2' --raw_mask_dir 'any/path3' --output_dir 'any/path4'
 ```
 
+<p float="left">
+  <img src="./page/meshlab.png" width=70% />
+</p>
+
 At last, modify the configs/ based on your setting.
 
 If you turn on '--viz_bbox' when running process_custom_data.py, you will see the following output
