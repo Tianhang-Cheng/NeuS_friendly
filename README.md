@@ -30,6 +30,8 @@ First, use COLMAP to extract camera poses and coarse 3D points cloud from multi-
     <img src="./page/colmap.png" width=35%/>
 </p>
 
+Example multiview data | Colmap GUI
+
 Then, save the "points3D.txt", "cameras.txt", "images.txt" to any path. 
 
 After that, modify the path and run the one of the following command for **twice**:
