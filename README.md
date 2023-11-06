@@ -48,9 +48,9 @@ If you turn on '--viz_bbox' when running process_custom_data.py, you will see th
 </figure> -->
 
 <p float="left">
-  <img src="./page/colmap_bbox.png" width=25% alt="The point cloud and bbox of colmap output" />
-  <img src="./page/unit_bbox.png" width=25% alt="Convert colmap bbox to unit bbox (A sphere with radius 1)" />
-  <img src="./page/sample_points.png" width=25% alt="The sample points of camera 0 in NueS" />
+  <img src="./page/colmap_bbox.png" width="100" alt="The point cloud and bbox of colmap output" />
+  <img src="./page/unit_bbox.png" width="100" alt="Convert colmap bbox to unit bbox (A sphere with radius 1)" />
+  <img src="./page/sample_points.png" width="100" alt="The sample points of camera 0 in NueS" />
 </p>
 
 ## Training
