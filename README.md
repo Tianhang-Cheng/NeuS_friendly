@@ -67,6 +67,21 @@ If you turn on '--viz_bbox' when running process_custom_data.py, you will see th
   <img src="./page/unit_bbox.png" width=30%/>
   <img src="./page/sample_points.png" width=30%/>
 </p>
+
+Final dataset structure:
+
+```txt
+<case_name>
+|-- cameras_xxx.npz    # camera parameters
+|-- image
+    |-- 000.png        # target image for each view
+    |-- 001.png
+    ...
+|-- mask
+    |-- 000.png        # target mask each view (For unmasked setting, set all pixels as 255)
+    |-- 001.png
+    ...
+```
  
 ## Training
 
