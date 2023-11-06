@@ -25,9 +25,9 @@ pip install -r requirements.txt
 
 First, use COLMAP to extract camera poses and coarse 3D points cloud from multi-view images. Here we use the "hotdog" from NeRF-synthetic dataset, which contains 100 training images. Here is the GUI version of COLMAP:
 
-<center class="half">
-<img src="./page/example_data.png" width=25%/><img src="./page/colmap.png" width=25%/>
-</center>
+<figure class="third">
+    <img src="./page/example_data.png" width=25%/><img src="./page/colmap.png" width=25%/>
+</figure>
 
 Then, save the "points3D.txt", "cameras.txt", "images.txt" to any path. 
 
@@ -43,9 +43,9 @@ python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/
 ```
 
 If you turn on '--viz_bbox' when running process_custom_data.py, you will see the following output
-<center class="half">
-<img src="./page/colmap_bbox.png" width=25% alt="The point cloud and bbox of colmap output"/><img src="./page/unit_bbox.png" width=25% alt="Convert colmap bbox to unit bbox (A sphere with radius 1)"/><img src="./page/sample_points.png" width=25% alt="The sample points of camera 0 in NueS"/>
-</center>
+<figure class="third">
+    <img src="./page/colmap_bbox.png" width=25% alt="The point cloud and bbox of colmap output"/><img src="./page/unit_bbox.png" width=25% alt="Convert colmap bbox to unit bbox (A sphere with radius 1)"/><img src="./page/sample_points.png" width=25% alt="The sample points of camera 0 in NueS"/>
+</figure>
 
 ## Training
 
