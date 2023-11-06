@@ -1,7 +1,12 @@
 # A custom-data friendly [NeuS](https://github.com/Totoro97/NeuS)
 
-This project is forked from NeuS but converted from NeuS space to the more common **NeRF space** (or **OpenCV space**).
+This project is forked from [NeuS](https://github.com/Totoro97/NeuS) but is more friendly with training on custom data. 
+We convert the coordinate from NeuS space to the more common **NeRF space** (or **OpenCV space**).
 It also adds a more detailed guidance on how to use colmap to build your own NeuS datasets and fixes some bugs I encountered.
+
+<p float="left">
+    <img src="./page/coord.png" width=40%>
+</p>
 
 ## Setup
 
