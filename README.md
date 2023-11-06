@@ -71,7 +71,6 @@ If you turn on '--viz_bbox' when running process_custom_data.py, you will see th
 ## Training
 
 - **Training without mask**
-- 
 ```bash
 # example
 python exp_runner.py --mode train --conf ./confs/custom_colmap_data_womask.conf --case hotdog
