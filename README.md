@@ -13,7 +13,7 @@ cd NeuS
 pip install -r requirements.txt
 ```
 
-or clone original NeuS and copy "models/dataset.py", "models/fields.py" to your project
+or clone original NeuS and **copy "models/dataset.py", "models/fields.py" to your project**
 
 ```shell
 git clone https://github.com/Totoro97/NeuS.git
@@ -52,23 +52,55 @@ If you turn on '--viz_bbox' when running process_custom_data.py, you will see th
  
 ## Training
 
+- **Training without mask**
+- 
 ```bash
 # example
 python exp_runner.py --mode train --conf ./confs/custom_colmap_data_womask.conf --case hotdog
+```
+
+- **Training with mask**
+
+not tested yet
+
+```shell
+python exp_runner.py --mode train --conf ./confs/wmask.conf --case <case_name>
+```
+
+- **Extract surface from trained model** 
+
+not tested yet
+
+```shell
+python exp_runner.py --mode validate_mesh --conf <config_file> --case <case_name> --is_continue # use latest checkpoint
+```
+
+The corresponding mesh can be found in `exp/<case_name>/<exp_name>/meshes/<iter_steps>.ply`.
+
+- **View interpolation**
+
+not tested yet
+
+```shell
+python exp_runner.py --mode interpolate_<img_idx_0>_<img_idx_1> --conf <config_file> --case <case_name> --is_continue # use latest checkpoint
 ```
 
 ## Appendix
 
 ### Bugs of original NeuS:
 
-1. (on windows) pyparsing.exceptions.ParseSyntaxException: , found '='  (at char 872), (line:50, col:14)
+1. **Error occurred while parsing config**
+
+```bash
+(on windows) pyparsing.exceptions.ParseSyntaxException: , found '='  (at char 872), (line:50, col:14)
+```
 
 Solution: delete these content in .conf file:
     "d_in_view = 3" and "d_in" of "nerf"
     "d_in" and "d_out" of "sdf_network"
     "d_out" and "d_in" of "rendering_network"
 
-2. Device mismatch
+2. **Device mismatch**
 
 torch.randint put data in cuda by default in my envrionment
 
@@ -88,7 +120,7 @@ mask = self.masks[img_idx][(pixels_y, pixels_x)]      # batch_size, 3
 p = torch.stack([pixels_x.cuda(), pixels_y.cuda(), torch.ones_like(pixels_y).cuda()], dim=-1).float()  # batch_size, 3
 ```
 
-3. Unexpected behavior of "load_K_Rt_from_P"
+3. **Unexpected behavior of "load_K_Rt_from_P"**
 
 the result shows that the "load_K_Rt_from_P" may produce inconsistent result because it use
 
