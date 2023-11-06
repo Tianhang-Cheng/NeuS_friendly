@@ -43,6 +43,8 @@ python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/
 python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/path2' --raw_mask_dir 'any/path3' --output_dir 'any/path4'
 ```
 
+At last, modify the configs/ based on your setting.
+
 If you turn on '--viz_bbox' when running process_custom_data.py, you will see the following output
 <p float="left">
   <img src="./page/colmap_bbox.png" width=30% />
@@ -60,8 +62,6 @@ python exp_runner.py --mode train --conf ./confs/custom_colmap_data_womask.conf 
 ```
 
 - **Training with mask**
-
-not tested yet
 
 ```shell
 python exp_runner.py --mode train --conf ./confs/wmask.conf --case <case_name>
@@ -87,7 +87,7 @@ python exp_runner.py --mode interpolate_<img_idx_0>_<img_idx_1> --conf <config_f
 
 ## Appendix
 
-### Bugs of original NeuS:
+### Bugs of original NeuS
 
 1. **Error occurred while parsing config**
 
