@@ -43,9 +43,15 @@ python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/
 ```
 
 If you turn on '--viz_bbox' when running process_custom_data.py, you will see the following output
-<figure class="third">
+<!-- <figure class="third">
     <img src="./page/colmap_bbox.png" width=25% alt="The point cloud and bbox of colmap output"><img src="./page/unit_bbox.png" width=25% alt="Convert colmap bbox to unit bbox (A sphere with radius 1)"><img src="./page/sample_points.png" width=25% alt="The sample points of camera 0 in NueS"/>
-</figure>
+</figure> -->
+
+<p float="left">
+  <img src="./page/colmap_bbox.png" width=25% alt="The point cloud and bbox of colmap output" />
+  <img src="./page/unit_bbox.png" width=25% alt="Convert colmap bbox to unit bbox (A sphere with radius 1)" />
+  <img src="./page/sample_points.png" width=25% alt="The sample points of camera 0 in NueS" />
+</p>
 
 ## Training
 
