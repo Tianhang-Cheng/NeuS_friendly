@@ -25,7 +25,7 @@ pip install -r requirements.txt
 
 First, use COLMAP to extract camera poses and coarse 3D points cloud from images. Here is the GUI version of COLMAP:
 
-![](page/colmap.png)
+<img src="./page/colmap.png" width = "300" height = "300" align=center />
 
 Then, save the "points3D.txt", "cameras.txt", "images.txt" to any path. 
 
@@ -42,9 +42,9 @@ python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/
 
 If you turn on '--viz_bbox' when running process_custom_data.py, you will see the following output
 
-![The point cloud and bbox of colmap output](page/colmap_bbox.png)
-![Convert colmap bbox to unit bbox (A sphere with radius 1)](page/unit_bbox.png)
-![The sample points of camera 0 in NueS](page/unit_bbox.png)
+<img src="./page/colmap_bbox.png" width = "300" height = "300" alt="The point cloud and bbox of colmap output" align=center />
+<img src="./page/unit_bbox.png" width = "300" height = "300" alt="Convert colmap bbox to unit bbox (A sphere with radius 1)" align=center />
+<img src="./page/sample_points.png" width = "300" height = "300" alt="The sample points of camera 0 in NueS" align=center />
 
 ## Training
 
