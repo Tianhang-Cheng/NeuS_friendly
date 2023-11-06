@@ -9,6 +9,10 @@ It also adds a more detailed guidance on how to use colmap to build your own Neu
     <img src="./page/opencv.PNG" width=45%/>
 </p>
 
+<p float="left">
+    <img src="./page/result.png" width=80%>
+</p>
+
 ## Setup
 
 Clone this repository
