@@ -48,9 +48,9 @@ If you turn on '--viz_bbox' when running process_custom_data.py, you will see th
 </figure> -->
 
 <p float="left">
-  <img src="./page/colmap_bbox.png" width="300"/>
-  <img src="./page/unit_bbox.png" width="300"/>
-  <img src="./page/sample_points.png" width="300"/>
+  <img src="./page/colmap_bbox.png" width=30%/>
+  <img src="./page/unit_bbox.png" width=30%/>
+  <img src="./page/sample_points.png" width=30%/>
 </p>
  
 ## Training
