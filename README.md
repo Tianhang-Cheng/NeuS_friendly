@@ -15,7 +15,7 @@ Clone this repository
 
 ```shell
 git clone https://github.com/Tianhang-Cheng/NeuS_friendly.git
-cd NeuS
+cd NeuS_friendly
 pip install -r requirements.txt
 ```
 
