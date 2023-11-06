@@ -1,11 +1,19 @@
 # A custom-data friendly [NeuS](https://github.com/Totoro97/NeuS)
 
-This project is forked from NeuS but converted from NeuS space to the more common NeRF space (or OpenCV space).
-It also fixes some bugs I encountered and adds a more detailed guidance on how to use colmap to build your own NeuS datasets.
+This project is forked from NeuS but converted from NeuS space to the more common **NeRF space** (or **OpenCV space**).
+It also adds a more detailed guidance on how to use colmap to build your own NeuS datasets and fixes some bugs I encountered.
 
 ## Setup
 
 Clone this repository
+
+```shell
+git clone https://github.com/Tianhang-Cheng/NeuS_friendly.git
+cd NeuS
+pip install -r requirements.txt
+```
+
+or clone original NeuS and copy "models/dataset.py", "models/fields.py" to your project
 
 ```shell
 git clone https://github.com/Totoro97/NeuS.git
@@ -13,23 +21,41 @@ cd NeuS
 pip install -r requirements.txt
 ```
 
-## extract colmap pose from custom multi-view image
+## Extract colmap pose from custom multi-view image
 
-In the first time runining, this script will generate a .xyz file and you can use MeshLab to edit the interesting area.
-Save the .xyz inplace and run this script again.
-Remeber to modify the path in the script.
+First, use COLMAP to extract camera poses and coarse 3D points cloud from images. Here is the GUI version of COLMAP:
 
-```bash
-python process_custom_data.py
+![](page/colmap.png)
+
+Then, save the "points3D.txt", "cameras.txt", "images.txt" to any path. 
+
+After that, modify the path and run the one of the following command for **twice**:
+In the first runining, this script will generate a .xyz file and you can use MeshLab to edit the interesting area. Save the .xyz inplace. 
+In the second runining, this script will read bbox from .xyz and prepare the dataset.
+
+```shell
+# without mask
+python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/path2' --output_dir 'any/path3'
+# or with mask
+python process_custom_data.py --colmap_txt_dir 'any/path1' --raw_image_dir 'any/path2' --raw_mask_dir 'any/path3' --output_dir 'any/path4'
 ```
 
-## training
+If you turn on '--viz_bbox' when running process_custom_data.py, you will see the following output
+
+![The point cloud and bbox of colmap output](page/colmap_bbox.png)
+![Convert colmap bbox to unit bbox (A sphere with radius 1)](page/unit_bbox.png)
+![The sample points of camera 0 in NueS](page/unit_bbox.png)
+
+## Training
 
 ```bash
+# example
 python exp_runner.py --mode train --conf ./confs/custom_colmap_data_womask.conf --case hotdog
 ```
 
-## bugs of original NeuS:
+## Appendix
+
+### Bugs of original NeuS:
 
 1. (on windows) pyparsing.exceptions.ParseSyntaxException: , found '='  (at char 872), (line:50, col:14)
 

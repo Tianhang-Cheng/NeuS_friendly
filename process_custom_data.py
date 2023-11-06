@@ -137,26 +137,33 @@ def draw_bbox_3d(point_cloud, x_min, y_min, z_min, x_max, y_max, z_max, title=No
     plt.show()
  
 if __name__ == '__main__':
-    colmap_output_dir = 'E:/dataset/hotdog/colmap' # colmap output dir, where "points3D.txt", "cameras.txt", "images.txt" are located
-    raw_image_dir = 'E:/dataset/hotdog' # raw image dir, where images are located (the images that are used to run colmap)
-    raw_mask_dir = None # raw mask dir, where masks are located (optional)
-    processed_output_dir = 'E:/code/NeuS/public_data/hotdog' # processed output dir, where "cameras_sphere.npz" will be saved
+    parser = argparse.ArgumentParser()
 
-    viz_bbox = False  
-
-    os.makedirs(processed_output_dir, exist_ok=True)
-    os.makedirs(processed_output_dir + '/image', exist_ok=True)
-    os.makedirs(processed_output_dir + '/mask', exist_ok=True)
-
-
+    parser.add_argument('--colmap_txt_dir', type=str, default='E:/dataset/hotdog/colmap', help='colmap output dir, where "points3D.txt", "cameras.txt", "images.txt" are located')
+    parser.add_argument('--raw_image_dir', type=str, default='E:/dataset/hotdog', help='where images are located (the images that are used to run colmap)')
+    parser.add_argument('--raw_mask_dir', type=str, default=None, help='where masks are located (optional)')
+    parser.add_argument('--output_dir', type=str, default='E:/code/NeuS/public_data/hotdog', help='processed output dir, where "cameras_sphere.npz" will be saved')
+    parser.add_argument('--viz_bbox', action='store_true', help='visualize bbox')
+    args = parser.parse_args()
+ 
+    colmap_txt_dir = args.colmap_txt_dir
+    raw_image_dir = args.raw_image_dir
+    raw_mask_dir = args.raw_mask_dir
+    output_dir = args.output_dir
+    viz_bbox = args.viz_bbox
+    
+    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(os.path.join(output_dir, 'image'), exist_ok=True)
+    os.makedirs(os.path.join(output_dir, 'mask'), exist_ok=True)
+    
     ########################################################################
     # manually filter points cloud to find interesting area
     ########################################################################
     
     # 1. save as .xyz file
-    xyz_file = colmap_output_dir + '/points3D.xyz'
+    xyz_file = os.path.join(colmap_txt_dir, 'points3D.xyz')
     points_list = []
-    with open(colmap_output_dir + '/points3D.txt', 'r') as f:
+    with open(os.path.join(colmap_txt_dir, 'points3D.txt'), 'r') as f:
         lines = f.readlines()
         for line in lines[3:]:
             info = line.split(' ')
@@ -225,7 +232,7 @@ if __name__ == '__main__':
 
     # 1. read intrinsics
     print(colored('Here we use "PINHOLE" model. You can change to other models.', 'green'))
-    f_intrinsic  = open(colmap_output_dir + '/cameras.txt', 'r')
+    f_intrinsic  = open(os.path.join(colmap_txt_dir, 'cameras.txt'), 'r')
     lines_intrinsic = f_intrinsic.readlines()
     f_intrinsic.close()
         
@@ -255,7 +262,7 @@ if __name__ == '__main__':
     
     # 2.read camera poses (world to camera)
     # we should sort the camera poses by camera_id!
-    f_pose = open(colmap_output_dir + '/images.txt', 'r')
+    f_pose = open(os.path.join(colmap_txt_dir, 'images.txt'), 'r')
     lines_pose = f_pose.readlines()
     f_pose.close()
  
@@ -272,7 +279,7 @@ if __name__ == '__main__':
 
         # 3. copy images to processed_output_dir
         source_image_path = os.path.join(raw_image_dir, image_name)
-        target_image_path = os.path.join(processed_output_dir, 'image', str(mapped_index).zfill(3) + '.png')
+        target_image_path = os.path.join(output_dir, 'image', str(mapped_index).zfill(3) + '.png')
         shutil.copy(source_image_path, target_image_path)
         print('copy image from %s to %s' % (source_image_path, target_image_path))
 
@@ -281,10 +288,10 @@ if __name__ == '__main__':
             if mapped_index == 0:
                 H, W = imageio.imread(source_image_path).shape[:2]
                 fake_mask = np.ones((H, W), dtype=np.uint8) * 255
-            imageio.imwrite(os.path.join(processed_output_dir, 'mask', str(mapped_index).zfill(3) + '.png'), fake_mask)
+            imageio.imwrite(os.path.join(output_dir, 'mask', str(mapped_index).zfill(3) + '.png'), fake_mask)
         else:
             source_mask_path = os.path.join(raw_mask_dir, image_name)
-            target_mask_path = os.path.join(processed_output_dir, 'mask', str(mapped_index).zfill(3) + '.png')
+            target_mask_path = os.path.join(output_dir, 'mask', str(mapped_index).zfill(3) + '.png')
             shutil.copy(source_mask_path, target_mask_path)
             print('copy mask from %s to %s' % (source_mask_path, target_mask_path))
     if raw_mask_dir is None:
@@ -312,18 +319,18 @@ if __name__ == '__main__':
         camera_dict['scale_mat_%d' % i] = scale_mat # shared by all cameras
         camera_dict['world_mat_inv_%d' % i] = np.linalg.inv(camera_dict['world_mat_%d' % i])
         camera_dict['scale_mat_inv_%d' % i] = np.linalg.inv(scale_mat) # or inv_scale_matrix
-    np.savez(os.path.join(processed_output_dir, 'cameras_sphere.npz'), **camera_dict) # save as npz
+    np.savez(os.path.join(output_dir, 'cameras_sphere.npz'), **camera_dict) # save as npz
 
     print(colored('Data processing is done!', 'blue', attrs=['bold']))
 
     # test 
     rays_o, rays_d = gen_rays_at(H=H, W=W, intrinsic=intrinsics[0],
-                                 c2w=np.linalg.inv(w2c[i]), # np.linalg.inv(w2c[i] @ scale_mat)
+                                 c2w=np.linalg.inv(w2c[0]), # np.linalg.inv(w2c[i] @ scale_mat)
                                  inv_scale_mat=inv_scale_matrix,
                                  resolution_level=4)
 
     # K1, Rt1 = load_K_Rt_from_P(intrinsics[0] @ w2c[i] @ scale_mat)
-    K2, Rt2 = decomposeP(intrinsics[0] @ w2c[i])
+    K2, Rt2 = decomposeP(intrinsics[0] @ w2c[0])
 
     rays_o = rays_o.reshape(-1, 3)[::30]
     rays_d = rays_d.reshape(-1, 3)[::30]
@@ -334,4 +341,4 @@ if __name__ == '__main__':
     z_vals = torch.linspace(0.0, 1.0, 5)
     z_vals = near + (far - near) * z_vals[None, :]
     points = rays_o[:, None, :] + rays_d[:, None, :] * z_vals[:, :, None] # [N_rays, N_samples, 3]
-    draw_bbox_3d(points.reshape(-1, 3), *target_object_bbox_min, *target_object_bbox_max, title='test camera pose and intrinsics', set_lim=False)
+    draw_bbox_3d(points.reshape(-1, 3), *target_object_bbox_min, *target_object_bbox_max, title='sampled points of camera 0', set_lim=False)

@@ -8,6 +8,9 @@ __pycache__/
 # C extensions
 *.so
 
+# MY command
+my_command.txt
+
 # Distribution / packaging
 .Python
 env/
